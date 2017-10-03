@@ -1,0 +1,85 @@
+*/ Structures /*
+
+Calendar
+  - tasks: [Task]
+  - paths: [Path]
+  - place_task(self, Task) --> Null
+  - remove_task(self, Task) --> Null
+  - display(self) --> Null
+
+Task
+  - title : Text
+  - time_period: TimePeriod
+  - active_location: Location
+  - locations : [Location]
+
+Path
+  - start_task : Task
+  - end_task : Task
+  - active_route: Route
+  - routes: [Route]
+  - select_route(self) --> Route
+
+Location
+  - name : Text
+  - latitude: Number
+  - longitude: Number
+  - is_fixed : Boolean
+  - opening_hours: [TimePeriod]
+
+Route
+  - mode : Text
+  - waypoints: [GMaps.WayPoint]
+  - time_period : TimePeriod
+  - distance : Number
+
+TimePeriod
+  - start_time : Timestamp
+  - end_time: Timestamp
+  - duration: Number
+  - is_fixed : Boolean
+
+User
+  - home_location : Location
+  - available_paths : {Walk, Cycle, PT, Drive} --> Boolean
+  - available_times : [TimePeriod]
+
+*/ Functions /*
+
+- Display Calendar (View)
+- Enter Task (Form)
+  a. Autocomplete Start Time, End Time & Duration
+  b. If (Fixed Location?): 
+    i. Google Maps Request
+    ii. Confirm with User
+- Enter User Preferences (Form)
+- Place Task (Process)
+  a. Check for errors - invalid location / time, overlap
+  b. If (Fixed Time?): Place Task(New Task)
+  c. Else: 
+    i. Generate Paths:
+      for Placed Task in Placed Tasks:
+        if (not New Task.Fixed Location?):
+          GMaps Request: New Task.Location near Placed Task.Location
+            --> New Task.Locations = [... result]
+        else: New Task.Locations = [New Task.Location]
+        for Location in New Task.Locations:
+          for Path Type in Available Path Types:
+            GMaps Request: Placed Task.Location -> Location by Path Type
+            --> CandidatePaths = [... result]
+    ii. Select Best Path:
+      for CandidatePath in CandidatePaths:
+        if
+      min([Path.Path Time for Path in Candidate Paths]) --> Best Path
+    iii. Place Task(Best Path.End Task)
+- Remove Task (Process)
+  a. 
+
+*/ Macro Rules /*
+
+1. Place all fixed tasks
+2. Minimize path time
+
+*/ Micro Rules /*
+
+1. Path type priority is Walk, Public Transport, Drive

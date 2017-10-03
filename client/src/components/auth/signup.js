@@ -7,7 +7,7 @@ import * as actions from "../../actions";
 class Signup extends Component {
   static contextTypes = {router: PropTypes.object}
   handleFormSubmit({email, password, passwordConfirm}) {
-    this.props.signupUser({email, password, passwordConfirm}, this.context.router);
+    this.props.signupUser({email, password, passwordConfirm}, this.context.router.history);
   }
   renderAlert() {
     if (this.props.errorMessage) {

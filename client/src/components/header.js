@@ -1,6 +1,11 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {Route, Link} from "react-router-dom";
+import {Route, Link, Switch, withRouter} from "react-router-dom";
+
+import Signin from "./auth/signin";
+import Signout from "./auth/signout";
+import Signup from "./auth/signup";
+import Settings from "./auth/settings";
 
 class Header extends Component {
   renderLinks() {
@@ -27,10 +32,23 @@ class Header extends Component {
   render() {
     return(
       <div>
-        <nav className="navbar navbar-light">
+        <nav className="navbar navbar-expand-md navbar-light bg-light">
+          <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span className="navbar-toggler-icon"></span>
+          </button>
           <Link to="/" className="navbar-brand">Smart Planner</Link>
-          <ul className="nav navbar-nav">{this.renderLinks()}</ul>
+          <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul className="navbar-nav">
+              {this.renderLinks()}
+            </ul>
+          </div>
         </nav>
+        <Switch>
+          <Route path='/signin' component={Signin}/>
+          <Route path='/signup' component={Signup}/>
+          <Route path='/signout' component={Signout}/>
+          <Route path='/settings' component={Settings}/>
+        </Switch>
       </div>
     );
   }
@@ -40,4 +58,4 @@ function mapStateToProps(state) {
   return {authenticated: state.auth.authenticated};
 };
 
-export default connect(mapStateToProps)(Header);
+export default withRouter(connect(mapStateToProps)(Header));

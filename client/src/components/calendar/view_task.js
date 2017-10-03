@@ -4,10 +4,10 @@ import {connect} from "react-redux";
 
 import * as actions from "../../actions";
 
-class Settings extends Component {
+class ViewTask extends Component {
   render() {
-    return <div>Settings page. Work in progress...</div>;
+    return <div>View task page. Work in progress...</div>;
   }
 }
 
-export default connect(null, actions)(Settings);
+export default ViewTask;

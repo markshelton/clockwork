@@ -1,20 +1,44 @@
-import React from "react";
-import { Switch, Route } from 'react-router-dom';
+import React, {Component} from "react";
+import {connect} from "react-redux";
+import { Switch, Route, Redirect, withRouter} from 'react-router-dom';
 
-import Home from "./home";
-import Signin from "./auth/signin";
-import Signout from "./auth/signout";
-import Signup from "./auth/signup";
-import Settings from "./auth/settings";
+import Welcome from "./auth/welcome";
+import CalendarMain from "./calendar/main";
 
-const Main = () => (
-  <Switch>
-    <Route exact path='/' component={Home}/>
-    <Route path='/signin' component={Signin}/>
-    <Route path='/signup' component={Signup}/>
-    <Route path='/signout' component={Signout}/>
-    <Route path='/settings' component={Settings}/>
-  </Switch>
-);
+class Main extends Component {
+  render() {
+    const auth = this.props.authenticated;    
+    return (
+      <Switch>
+        <PublicRoute exact path='/' component={Welcome} auth={auth}/>
+        <PrivateRoute path='/calendar' component={CalendarMain} auth={auth}/>
+      </Switch>
+    );
+  }
+} 
 
-export default Main;
+export const PublicRoute = ({ component: Component, auth, ...rest }) => {
+  return (
+    <Route {...rest} render={props => (
+      !auth 
+        ? (<Component {...props}/>) 
+        : (<Redirect to="/calendar"/>)
+    )}/>
+  );
+};
+
+export const PrivateRoute = ({ component: Component, auth, ...rest }) => {
+  return (
+    <Route {...rest} render={props => (
+      auth 
+        ? (<Component {...props}/>) 
+        : (<Redirect to='/signin'/>)
+    )}/>
+  );
+};
+
+function mapStateToProps(state) {
+  return {authenticated: state.auth.authenticated};
+};
+
+export default withRouter(connect(mapStateToProps)(Main));

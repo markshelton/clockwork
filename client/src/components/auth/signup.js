@@ -2,12 +2,14 @@ import React, {Component} from "react";
 import PropTypes from 'prop-types';
 import {reduxForm, Field, SubmissionError} from "redux-form";
 import {connect} from "react-redux";
+
+import history from "../history";
 import * as actions from "../../actions";
 
 class Signup extends Component {
   static contextTypes = {router: PropTypes.object}
   handleFormSubmit({email, password, passwordConfirm}) {
-    this.props.signupUser({email, password, passwordConfirm}, this.context.router.history);
+    this.props.signupUser({email, password, passwordConfirm}, history);
   }
   renderAlert() {
     if (this.props.errorMessage) {

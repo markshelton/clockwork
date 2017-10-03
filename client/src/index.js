@@ -2,7 +2,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore, applyMiddleware } from 'redux';
-import { BrowserRouter as Router } from "react-router-dom";
+import { Router } from "react-router-dom";
 import { Provider } from 'react-redux';
 import ReduxThunk from 'redux-thunk';
 
@@ -10,6 +10,7 @@ import ReduxThunk from 'redux-thunk';
 import App from './components/app';
 import reducers from './reducers';
 import {AUTH_USER} from "./actions/types";
+import history from "./components/history";
 
 // Middleware / Store prep
 const createStoreWithMiddleware = applyMiddleware(ReduxThunk)(createStore);
@@ -20,7 +21,7 @@ if (token) {store.dispatch({type: AUTH_USER})}
 //Render
 ReactDOM.render((
   <Provider store={store}>
-    <Router>
+    <Router history={history}>
       <App />
     </Router>
   </Provider>

@@ -43,12 +43,10 @@ class Header extends Component {
             </ul>
           </div>
         </nav>
-        <Switch>
-          <Route path='/signin' component={Signin}/>
-          <Route path='/signup' component={Signup}/>
-          <Route path='/signout' component={Signout}/>
-          <Route path='/settings' component={Settings}/>
-        </Switch>
+        <Route path='/signin' component={Signin}/>
+        <Route path='/signup' component={Signup}/>
+        <Route path='/signout' component={Signout}/>
+        <Route path='/settings' component={Settings}/>
       </div>
     );
   }

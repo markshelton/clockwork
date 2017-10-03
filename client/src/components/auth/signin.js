@@ -2,14 +2,14 @@ import React, {Component} from "react";
 import PropTypes from 'prop-types';
 import {reduxForm, Field} from "redux-form";
 import {connect} from "react-redux";
-import { withRouter } from 'react-router-dom'
 
+import history from "../history";
 import * as actions from "../../actions";
 
 class Signin extends Component {
   static contextTypes = {router: PropTypes.object}
   handleFormSubmit({email, password}) {
-    this.props.signinUser({email, password}, this.context.router.history);
+    this.props.signinUser({email, password}, history);
   }
   renderAlert() {
     if (this.props.errorMessage) {
@@ -59,4 +59,4 @@ function mapStateToProps(state) {
   return {errorMessage: state.auth.error};
 }
 
-export default withRouter(connect(mapStateToProps, actions)(reduxFormSignin));
+export default connect(mapStateToProps, actions)(reduxFormSignin);

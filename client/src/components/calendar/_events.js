@@ -1,4 +1,4 @@
-export default [
+let events = [
   {
     'title': 'All Day Event',
     'allDay': true,
@@ -78,3 +78,10 @@ export default [
     'end': new Date(2015, 3, 22, 2, 0, 0)
   }
 ]
+
+events = events.map((item, index) => {
+  item["id"] = index;
+  return item;
+});
+
+export default events;

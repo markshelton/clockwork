@@ -1,22 +1,20 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {Route, Switch, Redirect} from "react-router-dom";
 import BigCalendar from 'react-big-calendar';
 import BigCalendarCSS from "react-big-calendar/lib/css/react-big-calendar.css";
 import moment from 'moment';
 
 import events from "./_events";
+import history from "../history";
 
 BigCalendar.momentLocalizer(moment);
 
 class ViewCalendar extends Component {
   handleSelectEvent({id}) {
-    console.log("view event");
-    <Redirect to={`/tasks/${id}/view`} push />
+    return history.push(`/tasks/${id}/view`);
   }
   handleSelectSlot(slotInfo) {
-    console.log("new event");
-    <Redirect to='/tasks/new' push />
+    return history.push("/tasks/new");
   }
   render() {
     return (

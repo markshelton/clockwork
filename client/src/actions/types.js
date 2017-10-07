@@ -1,4 +1,10 @@
 export const AUTH_USER = "AUTH_USER";
 export const UNAUTH_USER = "UNAUTH_USER";
 export const AUTH_ERROR = "AUTH_ERROR";
-export const FETCH_MESSAGE = "FETCH_MESSAGE";
+export const FETCH_TASK = "FETCH_TASK";
+export const DELETE_TASK = "DELETE_TASK";
+export const CREATE_TASK = "CREATE_TASK";
+export const TASK_ERROR = "TASK_ERROR";
+export const FETCH_TASKS = "FETCH_TASKS";
+export const CREATE_TEMP_TASK = "CREATE_TEMP_TASK";
+export const DELETE_TEMP_TASK = "DELETE_TEMP_TASK";

@@ -1,8 +1,19 @@
+Provider
+  - Router
+    - App
+      - Header
+      - Main
+        - Welcome
+        - Signin
+        - Signup
+        - TasksMain
+          - Signout
+          - Settings
+          - ViewCalendar
+            - BigCalendar
+          - NewTask
+          - TaskMain
+            - ViewTask
+            - EditTask
 
-App
-  - Header
-  - CalendarView
-    - CalendarGrid
-      - CalendarItem
-  - TaskView
-  - EditTask
+

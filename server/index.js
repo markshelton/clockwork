@@ -7,19 +7,24 @@ const app = express();
 const router = require("./router");
 const cors = require("cors");
 const mongoose = require("mongoose");
-mongoose.Promise = require("bluebird")
+mongoose.Promise = require("bluebird");
 
-const dbUri = "mongodb://localhost/auth";
+const dbUri = "mongodb://localhost/smart-planner";
 
 // DB Setup
-mongoose.connect(dbUri, {useMongoClient: true})
-  .then(function() {console.log(`Database connected at ${dbUri}`);})
-  .catch(function(err) {console.log(`Database connection error: ${err.message}`);});
+mongoose
+  .connect(dbUri, { useMongoClient: true })
+  .then(function() {
+    console.log(`Database connected at ${dbUri}`);
+  })
+  .catch(function(err) {
+    console.log(`Database connection error: ${err.message}`);
+  });
 
 // App Setup
 app.use(morgan("combined"));
 app.use(cors());
-app.use(bodyParser.json({type: "*/*"}));
+app.use(bodyParser.json({ type: "*/*" }));
 router(app);
 
 // Server Setup

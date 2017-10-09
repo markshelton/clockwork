@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { reduxForm, Field } from "redux-form";
 import { connect } from "react-redux";
 
-import * as actions from "../../actions";
+import * as actions from "../../actions/_actions";
 
 class Settings extends Component {
   render() {
@@ -10,4 +10,8 @@ class Settings extends Component {
   }
 }
 
-export default connect(null, actions)(Settings);
+const mapStateToProps = state => {
+  return { user: state.user };
+};
+
+export default connect(mapStateToProps, actions)(Settings);

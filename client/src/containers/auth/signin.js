@@ -2,32 +2,35 @@ import React, { Component } from "react";
 import { reduxForm, Field } from "redux-form";
 import { connect } from "react-redux";
 
-import * as actions from "../../actions";
+import * as actions from "../../actions/_actions";
 
 class Signin extends Component {
-  handleFormSubmit({ email, password }) {
+  componentWillUnmount = () => {
+    this.props.clearError();
+  };
+  handleFormSubmit = ({ email, password }) => {
     this.props.signinUser({ email, password });
-  }
-  renderAlert() {
-    if (this.props.errorMessage) {
+  };
+  renderAlert = () => {
+    const { errorMessage } = this.props;
+    if (errorMessage) {
       return (
         <div className="alert alert-danger">
-          <strong>Oops!</strong> {this.props.errorMessage}
+          <strong>Oops!</strong> {errorMessage}
         </div>
       );
     }
-  }
-  renderField(field) {
+  };
+  renderField = field => {
     return (
       <div>
         <input {...field.input} type={field.type} className="form-control" />
       </div>
     );
-  }
-  render() {
-    const { handleSubmit } = this.props;
+  };
+  render = () => {
     return (
-      <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
+      <form onSubmit={this.props.handleSubmit(this.handleFormSubmit)}>
         <div className="form-group">
           <label>Email:</label>
           <Field name="email" type="text" component={this.renderField} />
@@ -42,13 +45,13 @@ class Signin extends Component {
         </button>
       </form>
     );
-  }
+  };
 }
 
-const reduxFormSignin = reduxForm({ form: "signin" })(Signin);
+const mapStateToProps = state => {
+  return { errorMessage: state.error };
+};
 
-function mapStateToProps(state) {
-  return { errorMessage: state.auth.error };
-}
-
-export default connect(mapStateToProps, actions)(reduxFormSignin);
+export default connect(mapStateToProps, actions)(
+  reduxForm({ form: "signin" })(Signin)
+);

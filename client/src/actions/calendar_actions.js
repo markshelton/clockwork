@@ -7,14 +7,13 @@ import {
   DELETE_TASK,
   CREATE_TASK,
   UPDATE_TASK,
-  TASK_ERROR,
   CREATE_TEMP_TASK,
   DELETE_TEMP_TASK
-} from "./types";
+} from "../constants/action_types";
+import history from "../constants/history";
+import { calendarError, networkError } from "./error_actions";
 
-import history from "../history";
-
-const API_URL = "http://localhost:3090";
+const API_URL = "http://localhost:3090"; // move to config file
 
 export const fetchTasks = () => dispatch => {
   axios
@@ -23,8 +22,9 @@ export const fetchTasks = () => dispatch => {
     })
     .then(
       response => dispatch({ type: FETCH_TASKS, payload: response }),
-      error => dispatch(taskError("Can't fetch calendar"))
-    );
+      error => dispatch(calendarError("Can't fetch calendar"))
+    )
+    .catch(error => dispatch(networkError(error)));
 };
 
 export const fetchTask = id => dispatch => {
@@ -34,8 +34,9 @@ export const fetchTask = id => dispatch => {
     })
     .then(
       response => dispatch({ type: FETCH_TASK, payload: response }),
-      error => dispatch(taskError("Can't fetch task"))
-    );
+      error => dispatch(calendarError("Can't fetch task"))
+    )
+    .catch(error => dispatch(networkError(error)));
 };
 
 export const deleteTask = id => dispatch => {
@@ -44,9 +45,13 @@ export const deleteTask = id => dispatch => {
       headers: { authorization: localStorage.getItem("token") }
     })
     .then(
-      response => dispatch({ type: DELETE_TASK, payload: id }),
-      error => dispatch(taskError("Can't delete task"))
-    );
+      response => {
+        dispatch({ type: DELETE_TASK, payload: id });
+        history.push("/");
+      },
+      error => dispatch(calendarError("Can't delete task"))
+    )
+    .catch(error => dispatch(networkError(error)));
 };
 
 export const createTask = task => dispatch => {
@@ -55,9 +60,13 @@ export const createTask = task => dispatch => {
       headers: { authorization: localStorage.getItem("token") }
     })
     .then(
-      response => dispatch({ type: CREATE_TASK }),
-      error => dispatch(taskError("Can't create task"))
-    );
+      response => {
+        dispatch({ type: CREATE_TASK });
+        history.push("/");
+      },
+      error => dispatch(calendarError("Can't create task"))
+    )
+    .catch(error => dispatch(networkError(error)));
 };
 
 export const updateTask = task => dispatch => {
@@ -67,19 +76,21 @@ export const updateTask = task => dispatch => {
       headers: { authorization: localStorage.getItem("token") }
     })
     .then(
-      response => dispatch({ type: UPDATE_TASK }),
-      error => dispatch(taskError("Can't update task"))
-    );
+      response => {
+        dispatch({ type: UPDATE_TASK });
+        history.push("/");
+      },
+      error => dispatch(calendarError("Can't update task"))
+    )
+    .catch(error => dispatch(networkError(error)));
 };
 
-export const taskError = error => {
-  return { type: TASK_ERROR, payload: error };
+export const createTempTask = task => dispatch => {
+  dispatch({ type: CREATE_TEMP_TASK, payload: task });
+  history.push("/tasks/new");
 };
 
-export const createTempTask = task => {
-  return { type: CREATE_TEMP_TASK, payload: task };
-};
-
-export const deleteTempTask = () => {
-  return { type: DELETE_TEMP_TASK };
+export const deleteTempTask = () => dispatch => {
+  dispatch({ type: DELETE_TEMP_TASK });
+  history.push("/");
 };

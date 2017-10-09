@@ -3,22 +3,23 @@ import { reduxForm, Field } from "redux-form";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import DateTime from "react-datetime";
+
 import DateTimeCSS from "react-datetime/css/react-datetime.css";
-import moment from "moment";
 
-import * as actions from "../../actions";
+import * as actions from "../../actions/_actions";
 
-class NewTask extends Component {
-  onDeleteClick = () => {
-    const { history, deleteTempTask } = this.props;
-    deleteTempTask();
-    history.push("/");
+class EditTask extends Component {
+  componentWillUnmount = () => {
+    this.props.clearError();
   };
-  onFormSubmit = ({ title, start, end }) => {
-    const { history, createTask, deleteTempTask } = this.props;
-    createTask({ title, start, end });
-    deleteTempTask();
-    history.push("/");
+  componentDidMount = () => {
+    this.props.fetchTask(this.props.match.params.id);
+  };
+  onDeleteClick = () => {
+    this.props.deleteTask(this.props.match.params.id);
+  };
+  onFormSubmit = task => {
+    this.props.updateTask(task);
   };
   renderAlert = () => {
     const { errorMessage } = this.props;
@@ -43,10 +44,10 @@ class NewTask extends Component {
     }
   };
   render = () => {
-    const { handleSubmit } = this.props;
+    if (!this.props.initialValues) return <div>Loading...</div>;
     return (
       <div>
-        <form onSubmit={handleSubmit(this.onFormSubmit)}>
+        <form onSubmit={this.props.handleSubmit(this.onFormSubmit)}>
           <div className="form-group">
             <label>Title:</label>
             <Field name="title" type="text" component={this.renderField} />
@@ -61,13 +62,17 @@ class NewTask extends Component {
           </div>
           {this.renderAlert()}
           <button action="submit" className="btn btn-primary">
-            Create Task
+            Update Task
+          </button>
+          <button type="button" className="btn btn-secondary float-sm-right">
+            <Link to="/">Back To Calendar</Link>
           </button>
           <button
+            type="button"
             className="btn btn-danger float-sm-right"
             onClick={this.onDeleteClick}
           >
-            Cancel
+            Delete Task
           </button>
         </form>
       </div>
@@ -93,14 +98,15 @@ const validate = formProps => {
 };
 
 const mapStateToProps = (state, ownProps) => {
+  const { id } = ownProps.match.params;
   return {
-    initialValues: state.calendar.temp,
-    errorMessage: state.auth.error
+    initialValues: state.calendar.tasks[id],
+    errorMessage: state.error
   };
 };
 
 export default withRouter(
   connect(mapStateToProps, actions)(
-    reduxForm({ form: "new_task", validate })(NewTask)
+    reduxForm({ form: "edit_task", validate })(EditTask)
   )
 );

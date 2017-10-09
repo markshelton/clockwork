@@ -8,12 +8,13 @@ import ReduxThunk from "redux-thunk";
 import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 import axios from "axios";
 
-// Components, Reducers & Actions
-import history from "./history";
-import reducers from "./reducers";
-import { AUTH_USER } from "./actions/types";
-
-import App from "./components/app";
+// Local Libraries
+import reducers from "./reducers/_reducers";
+import history from "./constants/history";
+import { AUTH_USER } from "./constants/action_types";
+import Header from "./containers/app/header";
+import Main from "./containers/app/main";
+import Footer from "./containers/app/footer";
 
 // Middleware / Store prep
 const createStoreWithMiddleware = applyMiddleware(ReduxThunk)(createStore);
@@ -25,7 +26,11 @@ if (token) store.dispatch({ type: AUTH_USER, payload: token });
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
-      <App />
+      <div>
+        <Header />
+        <Main />
+        <Footer />
+      </div>
     </Router>
   </Provider>,
   document.querySelector(".container")

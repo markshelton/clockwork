@@ -2,33 +2,36 @@ import React, { Component } from "react";
 import { reduxForm, Field, SubmissionError } from "redux-form";
 import { connect } from "react-redux";
 
-import * as actions from "../../actions";
+import * as actions from "../../actions/_actions";
 
 class Signup extends Component {
-  handleFormSubmit({ email, password, passwordConfirm }) {
+  componentWillUnmount = () => {
+    this.props.clearError();
+  };
+  handleFormSubmit = ({ email, password, passwordConfirm }) => {
     this.props.signupUser({ email, password, passwordConfirm });
-  }
-  renderAlert() {
-    if (this.props.errorMessage) {
+  };
+  renderAlert = () => {
+    const { errorMessage } = this.props;
+    if (errorMessage) {
       return (
         <div className="alert alert-danger">
-          <strong>Oops!</strong> {this.props.errorMessage}
+          <strong>Oops!</strong> {errorMessage}
         </div>
       );
     }
-  }
-  renderField({ input, label, type, meta: { touched, error, warning } }) {
+  };
+  renderField = ({ input, label, type, meta: { touched, error, warning } }) => {
     return (
       <div>
         <input {...input} type={type} className="form-control" />
         {touched && error && <div className="error">{error}</div>}
       </div>
     );
-  }
-  render() {
-    const { handleSubmit } = this.props;
+  };
+  render = () => {
     return (
-      <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
+      <form onSubmit={this.props.handleSubmit(this.handleFormSubmit)}>
         <div className="form-group">
           <label>Email:</label>
           <Field name="email" type="text" component={this.renderField} />
@@ -51,10 +54,10 @@ class Signup extends Component {
         </button>
       </form>
     );
-  }
+  };
 }
 
-function validate(formProps) {
+const validate = formProps => {
   const errors = {};
   if (!formProps.email) {
     errors.email = "Please enter an email.";
@@ -69,12 +72,12 @@ function validate(formProps) {
     errors.password = "Passwords must match";
   }
   return errors;
-}
+};
 
-const reduxFormSignup = reduxForm({ form: "signup", validate })(Signup);
+const mapStateToProps = state => {
+  return { errorMessage: state.error };
+};
 
-function mapStateToProps(state) {
-  return { errorMessage: state.auth.error };
-}
-
-export default connect(mapStateToProps, actions)(reduxFormSignup);
+export default connect(mapStateToProps, actions)(
+  reduxForm({ form: "signup", validate })(Signup)
+);

@@ -4,23 +4,24 @@ import {
   FETCH_TASK,
   DELETE_TASK,
   CREATE_TASK,
-  TASK_ERROR,
+  UPDATE_TASK,
   CREATE_TEMP_TASK,
   DELETE_TEMP_TASK
-} from "../actions/types";
+} from "../constants/action_types";
 
 export const reducer = (state = {}, { payload, type }) => {
   switch (type) {
     case FETCH_TASKS:
-      return { ...state, tasks: _.mapKeys(payload.data, "id") };
+      return { ...state, tasks: _.mapKeys(payload.data.tasks, "_id") };
     case FETCH_TASK:
       return { ...state, task: { [payload.data.id]: payload.data } };
     case DELETE_TASK:
-      return { ...state, tasks: _.omit(state.tasks, payload) };
+      console.log(payload);
+      return { ...state, tasks: _.omit(state.tasks, payload.data) };
     case CREATE_TASK:
       return state; // OMIT
-    case TASK_ERROR:
-      return { ...state, error: payload };
+    case UPDATE_TASK:
+      return state; // OMIT
     case CREATE_TEMP_TASK:
       return { ...state, temp: payload };
     case DELETE_TEMP_TASK:

@@ -1,19 +1,21 @@
 {
-  "name": "server",
+  "name": "smart-planner",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "main": "server.js",
+  "repository": "https://github.com/markshelton/smart-planner.git",
+  "author": "Mark Shelton <mark@shelton.id.au>",
+  "license": "MIT",
+  "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index.js"
+    "dev": "nodemon server.js"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "bluebird": "^3.5.0",
     "body-parser": "^1.17.2",
     "cors": "^2.8.4",
+    "dotenv": "^4.0.0",
     "express": "^4.15.4",
     "jwt-simple": "^0.5.1",
     "mongoose": "^4.11.6",

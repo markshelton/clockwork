@@ -1,10 +1,10 @@
 const bcrypt = require("bcrypt-nodejs");
 const mongoose = require("mongoose");
 
-const { USER_REF } = require("./references");
-
 const Schema = mongoose.Schema;
 const conn = mongoose.connection;
+
+const { USER_REF } = require("./constants");
 
 // Define our model
 const userSchema = new Schema({

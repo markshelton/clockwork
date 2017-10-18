@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
-const { USER_REF, TASK_REF } = require("./references");
-
 const Schema = mongoose.Schema;
 const conn = mongoose.connection;
+
+const { TASK_REF, USER_REF } = require("./constants");
 
 const taskSchema = new Schema({
   title: String,

@@ -1,0 +1,10 @@
+Environment: Docker - Not Implemented
+Build: Webpack
+Database: MongoDB -> PostgreSQL
+Query Middleware: GraphQL (React Apollo) - Not Implemented
+State Management: Redux Saga -> Redux Observable
+Routing: React Router 4 -> React Router Config / SSR
+Dynamic Serving: Express -> React SSR
+Static Serving: Express -> nginx
+Styling: SASS
+Front-end: React

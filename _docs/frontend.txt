@@ -16,4 +16,19 @@ Provider
             - ViewTask
             - EditTask
 
-
+App - Component
+  --> Splash - Component
+    ^-> Welcome - Component
+    ^-> Signup - Container
+    ^-> Signin - Container
+    ^-> Reset Password - Container
+    ^-> Goodbye - Component
+  --> Home - Component
+    ^-> Header - Component
+    ^-> Main - Component
+      ^-> Calendar - Container
+      ^-> NewTask - Container
+      ^-> ViewTask - Container
+      ^-> EditTask - Container
+      ^-> Settings - Container
+    ^-> Footer - Component

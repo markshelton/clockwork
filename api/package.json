@@ -1,0 +1,36 @@
+{
+  "name": "clockwork-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/markshelton/smart-planner.git",
+  "author": "Mark Shelton <mark@shelton.id.au>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "forever index.js",
+    "server": "nodemon index.js",
+    "dev": "npm run server"
+  },
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "bluebird": "^3.5.0",
+    "body-parser": "^1.17.2",
+    "cors": "^2.8.4",
+    "dotenv": "^4.0.0",
+    "express": "^4.15.4",
+    "express-json-errors": "^1.0.5",
+    "forever": "^0.15.3",
+    "jsdom": "^11.3.0",
+    "jwt-simple": "^0.5.1",
+    "mongoose": "^4.11.6",
+    "mongoose-token": "^1.0.3",
+    "morgan": "^1.8.2",
+    "nodemailer": "^4.2.0",
+    "nodemailer-html-to-text": "^2.1.0",
+    "nodemon": "^1.11.0",
+    "passport": "^0.3.2",
+    "passport-jwt": "^2.2.1",
+    "passport-local": "^1.0.0",
+    "swig-email-templates": "^5.0.0"
+  }
+}
